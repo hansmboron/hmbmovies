@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "537617838697",
+    "project_id": "hmbfilmes",
+    "storage_bucket": "hmbfilmes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537617838697:android:682d3097b0fdae34ce28f8",
+        "android_client_info": {
+          "package_name": "br.com.hansmboron.app_movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537617838697-bhliokthpld0oc5n9tq3b5bf1tk454d9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.hansmboron.app_movies",
+            "certificate_hash": "171b0f58dce88e32b2db7d9a4791fc2c2689b28a"
+          }
+        },
+        {
+          "client_id": "537617838697-q39625c44o3idpl0avlra24hdvjqnq04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCopYLXGKX-6cvijFQDQ61NhL6nYZKUOT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537617838697-q39625c44o3idpl0avlra24hdvjqnq04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
