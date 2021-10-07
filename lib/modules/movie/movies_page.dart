@@ -1,3 +1,4 @@
+import 'package:app_movies/modules/movie/widgets/movie_header.dart';
 import 'package:flutter/material.dart';
 
 class MoviesPage extends StatelessWidget {
@@ -5,8 +6,12 @@ class MoviesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text('Movies Page'),
+    return Scaffold(
+      body: ListView(
+        children: [
+          MovieHeader(),
+        ],
+      ),
     );
   }
 }
