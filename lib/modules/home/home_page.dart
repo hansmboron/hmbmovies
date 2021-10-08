@@ -1,6 +1,7 @@
 import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/modules/favorite/favorites_page.dart';
 import 'package:app_movies/modules/home/home_controller.dart';
+import 'package:app_movies/modules/movie/movies_bindings.dart';
 import 'package:app_movies/modules/movie/movies_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class HomePage extends GetView<HomeController> {
               return GetPageRoute(
                 settings: settings,
                 page: () => MoviesPage(),
+                binding: MoviesBindings(),
               );
             }
             if (settings.name == '/favorites') {
