@@ -24,7 +24,7 @@ class MoviesGroup extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8),
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -34,6 +34,7 @@ class MoviesGroup extends StatelessWidget {
             height: 250,
             child: Obx(
               () => ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemCount: movies.length,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
