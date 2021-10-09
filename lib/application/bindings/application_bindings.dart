@@ -18,6 +18,6 @@ class ApplicationBindings implements Bindings {
     );
     Get.put(AuthService()).init();
 
-    Get.lazyPut(() => RestClient());
+    Get.lazyPut(() => RestClient(), fenix: true);
   }
 }

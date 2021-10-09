@@ -1,5 +1,6 @@
 import 'package:app_movies/modules/movie/widgets/movie_header.dart';
 import 'package:app_movies/modules/movie/widgets/movies_filters.dart';
+import 'package:app_movies/modules/movie/widgets/movies_group.dart';
 import 'package:flutter/material.dart';
 
 class MoviesPage extends StatelessWidget {
@@ -9,9 +10,12 @@ class MoviesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: [
+        physics: BouncingScrollPhysics(),
+        children: const [
           MovieHeader(),
           MoviesFilters(),
+          MoviesGroup(title: 'Mais Populares'),
+          MoviesGroup(title: 'Top filmes'),
         ],
       ),
     );
