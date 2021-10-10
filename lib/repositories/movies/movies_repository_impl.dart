@@ -1,4 +1,5 @@
 import 'package:app_movies/application/rest_client/rest_client.dart';
+import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/models/movie_model.dart';
 import 'package:app_movies/repositories/movies/movies_repository.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -52,5 +53,24 @@ class MoviesRepositoryImpl extends MoviesRepository {
       throw Exception('Erro ao buscar filmes populares!');
     }
     return result.body ?? <MovieModel>[];
+  }
+
+  @override
+  Future<MovieDetailsModel?> getDetail(int id) async {
+    final result =
+        await _restClient.get<MovieDetailsModel>('/movie/$id', query: {
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-br',
+      'append_to_response': 'images,credits',
+      'include_image_language': 'en,pt-br'
+    }, decoder: (data) {
+      return MovieDetailsModel.fromMap(data);
+    });
+
+    if (result.hasError) {
+      print(result.statusText);
+      throw Exception('Erro ao buscar detalhes do filme!');
+    }
+    return result.body;
   }
 }
