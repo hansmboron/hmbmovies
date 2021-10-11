@@ -12,7 +12,7 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.movie.value?.title ?? 'Detalhes:'),
+        title: Obx(() => Text(controller.movie.value?.title ?? 'Detalhes:')),
       ),
       body: SingleChildScrollView(
           child: Obx(

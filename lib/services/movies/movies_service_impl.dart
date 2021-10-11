@@ -17,6 +17,15 @@ class MoviesServiceImpl implements MoviesService {
   Future<List<MovieModel>> getTopRated() => _moviesRepository.getTopRated();
 
   @override
+  Future<List<MovieModel>> getLatest() => _moviesRepository.getLatest();
+
+  @override
   Future<MovieDetailsModel?> getDetail(int id) =>
       _moviesRepository.getDetail(id);
+
+  @override
+  Future<void> addOrRemoveFavorite(String userId, MovieModel movie) {
+    // TODO: implement addOrRemoveFavorite
+    throw UnimplementedError();
+  }
 }

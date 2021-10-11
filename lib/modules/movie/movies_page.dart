@@ -17,6 +17,10 @@ class MoviesPage extends GetView<MovieController> {
           const MovieHeader(),
           const MoviesFilters(),
           MoviesGroup(
+            title: 'Últimos lançamentos',
+            movies: controller.latestMovies,
+          ),
+          MoviesGroup(
             title: 'Mais Populares',
             movies: controller.popularMovies,
           ),

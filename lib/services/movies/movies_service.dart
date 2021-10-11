@@ -4,5 +4,7 @@ import 'package:app_movies/models/movie_model.dart';
 abstract class MoviesService {
   Future<List<MovieModel>> getPopularMovies();
   Future<List<MovieModel>> getTopRated();
+  Future<List<MovieModel>> getLatest();
   Future<MovieDetailsModel?> getDetail(int id);
+  Future<void> addOrRemoveFavorite(String userId, MovieModel movie);
 }

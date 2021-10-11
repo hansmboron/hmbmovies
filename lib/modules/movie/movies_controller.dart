@@ -12,10 +12,12 @@ class MovieController extends GetxController with MessagesMixin {
   final genres = <GenreModel>[].obs;
   final popularMovies = <MovieModel>[].obs;
   final topRatedMovies = <MovieModel>[].obs;
+  final latestMovies = <MovieModel>[].obs;
   final genreSelected = Rxn<GenreModel>();
 
   var _popularMoviesOriginal = <MovieModel>[];
   var _topRatedMoviesOriginal = <MovieModel>[];
+  var _latestMoviesOriginal = <MovieModel>[];
 
   MovieController({
     required GenresService genresService,
@@ -37,10 +39,13 @@ class MovieController extends GetxController with MessagesMixin {
 
       final popularMoviesData = await _moviesService.getPopularMovies();
       final topRatedMoviesData = await _moviesService.getTopRated();
+      final latestMoviesData = await _moviesService.getLatest();
       popularMovies.assignAll(popularMoviesData);
       _popularMoviesOriginal = popularMoviesData;
       topRatedMovies.assignAll(topRatedMoviesData);
       _topRatedMoviesOriginal = topRatedMoviesData;
+      latestMovies.assignAll(latestMoviesData);
+      _latestMoviesOriginal = latestMoviesData;
     } catch (e, s) {
       print('ERRO: ' + e.toString());
       print(s);
@@ -60,12 +65,17 @@ class MovieController extends GetxController with MessagesMixin {
       var newTopRatedMovies = _topRatedMoviesOriginal.where((movie) {
         return movie.title.toLowerCase().contains(title.toLowerCase());
       });
+      var newLatestMovies = _latestMoviesOriginal.where((movie) {
+        return movie.title.toLowerCase().contains(title.toLowerCase());
+      });
 
       popularMovies.assignAll(newPopularMovies);
       topRatedMovies.assignAll(newTopRatedMovies);
+      latestMovies.assignAll(newLatestMovies);
     } else {
       popularMovies.assignAll(_popularMoviesOriginal);
       topRatedMovies.assignAll(_topRatedMoviesOriginal);
+      latestMovies.assignAll(_latestMoviesOriginal);
     }
   }
 
@@ -85,12 +95,17 @@ class MovieController extends GetxController with MessagesMixin {
       var newTopRatedMovies = _topRatedMoviesOriginal.where((movie) {
         return movie.genres.contains(genreFilter?.id);
       });
+      var newLatestMovies = _latestMoviesOriginal.where((movie) {
+        return movie.genres.contains(genreFilter?.id);
+      });
 
       popularMovies.assignAll(newPopularMovies);
       topRatedMovies.assignAll(newTopRatedMovies);
+      latestMovies.assignAll(newLatestMovies);
     } else {
       popularMovies.assignAll(_popularMoviesOriginal);
       topRatedMovies.assignAll(_topRatedMoviesOriginal);
+      latestMovies.assignAll(_latestMoviesOriginal);
     }
   }
 }
