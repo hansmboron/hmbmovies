@@ -1,9 +1,7 @@
 import 'package:app_movies/models/movie_details_model.dart';
-import 'package:app_movies/modules/movie_detail/movie_details_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class MovieDetailHeader extends GetView<MovieDetailsController> {
+class MovieDetailHeader extends StatelessWidget {
   const MovieDetailHeader({Key? key, required this.movie}) : super(key: key);
 
   final MovieDetailsModel? movie;
@@ -20,7 +18,19 @@ class MovieDetailHeader extends GetView<MovieDetailsController> {
             final image = movie!.urlImages[index];
             return Padding(
               padding: const EdgeInsets.all(2),
-              child: Image.network(image),
+              child: Image.network(
+                image,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey,
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 85,
+                      width: 85,
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),

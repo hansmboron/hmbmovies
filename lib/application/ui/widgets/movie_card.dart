@@ -20,7 +20,7 @@ class MovieCard extends StatelessWidget {
         Get.toNamed('/movie/detail', arguments: movie.id);
       },
       child: Container(
-        height: 230,
+        height: 232,
         width: 124,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -36,7 +36,7 @@ class MovieCard extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   child: Image.network(
                     movie.posterPath,
-                    height: 184,
+                    height: 183,
                     width: 124,
                     fit: BoxFit.cover,
                   ),

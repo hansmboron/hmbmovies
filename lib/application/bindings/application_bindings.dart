@@ -25,8 +25,10 @@ class ApplicationBindings implements Bindings {
     Get.lazyPut(() => RestClient(), fenix: true);
 
     Get.lazyPut<MoviesRepository>(
-        () => MoviesRepositoryImpl(restClient: Get.find()));
+        () => MoviesRepositoryImpl(restClient: Get.find()),
+        fenix: true);
     Get.lazyPut<MoviesService>(
-        () => MoviesServiceImpl(moviesRepository: Get.find()));
+        () => MoviesServiceImpl(moviesRepository: Get.find()),
+        fenix: true);
   }
 }

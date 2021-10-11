@@ -17,7 +17,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         await _restClient.get<List<MovieModel>>('/movie/popular', query: {
       'api_key': RemoteConfig.instance.getString('api_token'),
       'language': 'pt-br',
-      'page': '1'
+      // 'page': '1'
     }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
@@ -39,7 +39,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
         await _restClient.get<List<MovieModel>>('/movie/top_rated', query: {
       'api_key': RemoteConfig.instance.getString('api_token'),
       'language': 'pt-br',
-      'page': '1'
+      // 'page': '1'
     }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
