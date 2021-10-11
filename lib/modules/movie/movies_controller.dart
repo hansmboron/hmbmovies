@@ -43,9 +43,9 @@ class MovieController extends GetxController with MessagesMixin {
       genres.assignAll(genData);
 
       await getMovies();
-    } catch (e, s) {
+    } catch (e) {
+      // ignore: avoid_print
       print('ERRO: ' + e.toString());
-      print(s);
       _message(
         MessageModel.error(
             title: 'Erro!', message: 'Erro ao carregar dados da página!!!'),

@@ -32,9 +32,9 @@ class MovieDetailsController extends GetxController
       movie.value = movieDetailData;
       // movie(movieDetailData);
       loading(false);
-    } catch (e, s) {
-      print(e);
-      print(s);
+    } catch (e) {
+      // print(e);
+      // print(s);
       loading(false);
       message(MessageModel.error(
           title: 'Erro', message: 'Erro ao buscar detalhe do filme'));

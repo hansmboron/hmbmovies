@@ -8,7 +8,7 @@ class HomeModule extends Module {
   List<GetPage> routers = [
     GetPage(
       name: '/home',
-      page: () => HomePage(),
+      page: () => const HomePage(),
       binding: HomeBindings(),
     )
   ];

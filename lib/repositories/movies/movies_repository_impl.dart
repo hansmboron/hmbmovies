@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:app_movies/application/rest_client/rest_client.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/models/movie_model.dart';
@@ -129,6 +131,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
           .collection('fav')
           .doc(userId)
           .collection('movies')
+          .orderBy('title')
           .get();
 
       final listFavorites = <MovieModel>[];

@@ -1,5 +1,6 @@
 import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/models/cast_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieCast extends StatelessWidget {
@@ -17,19 +18,20 @@ class MovieCast extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              cast?.image ??
+            child: CachedNetworkImage(
+              imageUrl: cast?.image ??
                   'https://hansmboron.free.resourcespace.com/filestore/hansmboron/1/1/1/4_b15a19c9301d26e/1114scr_26cec469bfb05d6.jpg?v=1621270273',
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 85,
-                    width: 85,
-                  ),
-                );
-              },
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                child:
+                    CircularProgressIndicator(value: downloadProgress.progress),
+              ),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/images/actor.png',
+                height: 85,
+                width: 85,
+                fit: BoxFit.cover,
+              ),
               height: 85,
               width: 85,
               fit: BoxFit.cover,

@@ -1,4 +1,5 @@
 import 'package:app_movies/application/ui/theme_extensions.dart';
+import 'package:app_movies/modules/favorite/favorites_bindings.dart';
 import 'package:app_movies/modules/favorite/favorites_page.dart';
 import 'package:app_movies/modules/home/home_controller.dart';
 import 'package:app_movies/modules/movie/movies_bindings.dart';
@@ -19,14 +20,15 @@ class HomePage extends GetView<HomeController> {
             if (settings.name == '/movies') {
               return GetPageRoute(
                 settings: settings,
-                page: () => MoviesPage(),
+                page: () => const MoviesPage(),
                 binding: MoviesBindings(),
               );
             }
             if (settings.name == '/favorites') {
               return GetPageRoute(
                 settings: settings,
-                page: () => FavoritesPage(),
+                page: () => const FavoritesPage(),
+                binding: FavoritesBingings(),
               );
             }
 

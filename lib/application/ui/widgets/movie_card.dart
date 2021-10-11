@@ -1,4 +1,5 @@
 import 'package:app_movies/application/ui/theme_extensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_movies/models/movie_model.dart';
@@ -7,7 +8,7 @@ import 'package:intl/intl.dart';
 
 class MovieCard extends StatelessWidget {
   final MovieModel movie;
-  final dateFormat = DateFormat('y');
+  final dateFormat = DateFormat('MM/y');
   final VoidCallback favoriteCallback;
 
   MovieCard({
@@ -37,11 +38,19 @@ class MovieCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                    'https://image.tmdb.org/t/p/w200${movie.posterPath}',
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://image.tmdb.org/t/p/w200${movie.posterPath}',
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    fit: BoxFit.cover,
                     height: 183,
                     width: 124,
-                    fit: BoxFit.cover,
                   ),
                 ),
                 const Spacer(),

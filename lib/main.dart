@@ -5,6 +5,7 @@ import 'package:app_movies/modules/splash/splash_module.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'application/bindings/application_bindings.dart';
@@ -15,6 +16,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   RemoteConfig.instance.fetchAndActivate();
   runApp(const MyApp());
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.white,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: FilmesAppUiConfig.title,
       initialBinding: ApplicationBindings(),
       theme: FilmesAppUiConfig.theme,

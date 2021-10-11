@@ -8,7 +8,7 @@ class SplashModule implements Module {
   List<GetPage> routers = [
     GetPage(
       name: '/',
-      page: () => SplashPage(),
+      page: () => const SplashPage(),
       binding: SplashBindings(),
     )
   ];

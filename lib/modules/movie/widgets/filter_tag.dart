@@ -30,7 +30,7 @@ class FilterTag extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             model.name,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
           ),
         ),
       ),

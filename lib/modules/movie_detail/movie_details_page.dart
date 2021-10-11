@@ -13,6 +13,8 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(controller.movie.value?.title ?? 'Detalhes:')),
+        elevation: 0,
+        leading: const Icon(Icons.arrow_back_ios_new_rounded),
       ),
       body: SingleChildScrollView(
           child: Obx(

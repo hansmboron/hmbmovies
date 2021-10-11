@@ -28,6 +28,7 @@ class GenresRepositoryImpl implements GenresRepository {
     );
 
     if (result.hasError) {
+      // ignore: avoid_print
       print(result.statusText);
       throw Exception('Erro ao buscar generos!!!');
     }

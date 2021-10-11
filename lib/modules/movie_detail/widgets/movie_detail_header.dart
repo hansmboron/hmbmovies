@@ -1,4 +1,5 @@
 import 'package:app_movies/models/movie_details_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailHeader extends StatelessWidget {
@@ -18,18 +19,13 @@ class MovieDetailHeader extends StatelessWidget {
             final image = movie!.urlImages[index];
             return Padding(
               padding: const EdgeInsets.all(2),
-              child: Image.network(
-                image,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey,
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      height: 85,
-                      width: 85,
-                    ),
-                  );
-                },
+              child: CachedNetworkImage(
+                imageUrl: image,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress)),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             );
           },
