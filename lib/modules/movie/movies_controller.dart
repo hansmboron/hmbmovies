@@ -1,3 +1,4 @@
+import 'package:app_movies/application/auth/auth_service.dart';
 import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/genre_model.dart';
 import 'package:app_movies/models/movie_model.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 class MovieController extends GetxController with MessagesMixin {
   final GenresService _genresService;
   final MoviesService _moviesService;
+  final AuthService _authService;
+
   final _message = Rxn<MessageModel>();
   final genres = <GenreModel>[].obs;
   final popularMovies = <MovieModel>[].obs;
@@ -22,8 +25,10 @@ class MovieController extends GetxController with MessagesMixin {
   MovieController({
     required GenresService genresService,
     required MoviesService moviesService,
+    required AuthService authService,
   })  : _genresService = genresService,
-        _moviesService = moviesService;
+        _moviesService = moviesService,
+        _authService = authService;
 
   @override
   void onInit() {
@@ -37,15 +42,7 @@ class MovieController extends GetxController with MessagesMixin {
       final genData = await _genresService.getGenres();
       genres.assignAll(genData);
 
-      final popularMoviesData = await _moviesService.getPopularMovies();
-      final topRatedMoviesData = await _moviesService.getTopRated();
-      final latestMoviesData = await _moviesService.getLatest();
-      popularMovies.assignAll(popularMoviesData);
-      _popularMoviesOriginal = popularMoviesData;
-      topRatedMovies.assignAll(topRatedMoviesData);
-      _topRatedMoviesOriginal = topRatedMoviesData;
-      latestMovies.assignAll(latestMoviesData);
-      _latestMoviesOriginal = latestMoviesData;
+      await getMovies();
     } catch (e, s) {
       print('ERRO: ' + e.toString());
       print(s);
@@ -55,6 +52,44 @@ class MovieController extends GetxController with MessagesMixin {
       );
     }
     super.onReady();
+  }
+
+  Future<void> getMovies() async {
+    var popularMoviesData = await _moviesService.getPopularMovies();
+    var topRatedMoviesData = await _moviesService.getTopRated();
+    var latestMoviesData = await _moviesService.getLatest();
+    final favorites = await getFavorites();
+
+    popularMoviesData = popularMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    topRatedMoviesData = topRatedMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    latestMoviesData = latestMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    popularMovies.assignAll(popularMoviesData);
+    _popularMoviesOriginal = popularMoviesData;
+    topRatedMovies.assignAll(topRatedMoviesData);
+    _topRatedMoviesOriginal = topRatedMoviesData;
+    latestMovies.assignAll(latestMoviesData);
+    _latestMoviesOriginal = latestMoviesData;
   }
 
   void filterByName(String title) {
@@ -106,6 +141,27 @@ class MovieController extends GetxController with MessagesMixin {
       popularMovies.assignAll(_popularMoviesOriginal);
       topRatedMovies.assignAll(_topRatedMoviesOriginal);
       latestMovies.assignAll(_latestMoviesOriginal);
+    }
+  }
+
+  Future<void> favoriteMovie(MovieModel movie) async {
+    final user = _authService.user;
+    if (user != null) {
+      var newMovie = movie.copyWith(favorite: !movie.favorite);
+      await _moviesService.addOrRemoveFavorite(user.uid, newMovie);
+      await getMovies();
+    }
+  }
+
+  Future<Map<int, MovieModel>> getFavorites() async {
+    var user = _authService.user;
+    if (user != null) {
+      final favorites = await _moviesService.getFavoritiesMovies(user.uid);
+      return <int, MovieModel>{
+        for (var fav in favorites) fav.id: fav,
+      };
+    } else {
+      return {};
     }
   }
 }

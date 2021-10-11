@@ -100,23 +100,45 @@ class MoviesRepositoryImpl extends MoviesRepository {
   @override
   Future<void> addOrRemoveFavorite(String userId, MovieModel movie) async {
     try {
-      var favoriteColection = await FirebaseFirestore.instance
+      var favoriteCollection = FirebaseFirestore.instance
           .collection('fav')
           .doc(userId)
           .collection('movies');
 
       if (movie.favorite) {
-        favoriteColection.add(movie.toMap());
+        favoriteCollection.add(movie.toMap());
       } else {
-        var favoriteData = await favoriteColection
+        var favoriteData = await favoriteCollection
             .where('id', isEqualTo: movie.id)
             .limit(1)
             .get();
-        var docs = favoriteData.docs.first.reference.delete();
+        favoriteData.docs.first.reference.delete();
       }
     } catch (e) {
+      print(e);
       print('Erro ao favoritar um filme');
       rethrow;
+    }
+  }
+
+  @override
+  Future<List<MovieModel>> getFavoritiesMovies(String userId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> favMovies = await FirebaseFirestore
+          .instance
+          .collection('fav')
+          .doc(userId)
+          .collection('movies')
+          .get();
+
+      final listFavorites = <MovieModel>[];
+      for (var movie in favMovies.docs) {
+        listFavorites.add(MovieModel.fromMap(movie.data()));
+      }
+      return listFavorites;
+    } catch (e) {
+      print('ERRO:' + e.toString());
+      return <MovieModel>[];
     }
   }
 }
