@@ -36,7 +36,6 @@ class MoviesGroup extends GetView<MovieController> {
             child: Obx(
               () => ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                // controller: controller.popularScroll,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   var movie = movies[index];

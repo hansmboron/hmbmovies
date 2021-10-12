@@ -82,7 +82,6 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<MovieDetailsModel?> getDetail(int id) async {
-    print('MOVIE ID: ${id.toString()}');
     var link = await getDownload(movieId: id);
     final result =
         await _restClient.get<MovieDetailsModel>('/movie/$id', query: {
@@ -91,7 +90,10 @@ class MoviesRepositoryImpl extends MoviesRepository {
       'append_to_response': 'images,credits',
       'include_image_language': 'en,pt-br'
     }, decoder: (data) {
-      var withDown = MovieDetailsModel.fromMap(data).copyWith(download: link);
+      var withDown = MovieDetailsModel.fromMap(data).copyWith(
+        download: link['link'],
+        youtube: link['youtube'],
+      );
       return withDown;
     });
 
@@ -102,17 +104,17 @@ class MoviesRepositoryImpl extends MoviesRepository {
     return result.body;
   }
 
-  Future<String> getDownload({required int movieId}) async {
+  Future<Map<String, dynamic>> getDownload({required int movieId}) async {
     try {
       var downLinks = await FirebaseFirestore.instance
           .collection('down')
           .doc(movieId.toString())
           .get();
 
-      return downLinks.data()?['link'] ?? '';
+      return downLinks.data() ?? {};
     } catch (e) {
       print(e);
-      return '';
+      return {};
     }
   }
 

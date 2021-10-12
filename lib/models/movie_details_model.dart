@@ -14,6 +14,7 @@ class MovieDetailsModel {
   final String originalLanguage;
   final List<CastModel> cast;
   final String download;
+  final String youtube;
 
   MovieDetailsModel(
       {required this.title,
@@ -25,7 +26,8 @@ class MovieDetailsModel {
       required this.productionCompanies,
       required this.originalLanguage,
       required this.cast,
-      this.download = ''});
+      this.download = '',
+      this.youtube = ''});
 
   Map<String, dynamic> toMap() {
     return {
@@ -82,7 +84,8 @@ class MovieDetailsModel {
       List<String>? productionCompanies,
       String? originalLanguage,
       List<CastModel>? cast,
-      String? download}) {
+      String? download,
+      String? youtube}) {
     return MovieDetailsModel(
       title: title ?? this.title,
       stars: stars ?? this.stars,
@@ -94,6 +97,7 @@ class MovieDetailsModel {
       originalLanguage: originalLanguage ?? this.originalLanguage,
       cast: cast ?? this.cast,
       download: download ?? this.download,
+      youtube: youtube ?? this.youtube,
     );
   }
 }

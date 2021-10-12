@@ -12,12 +12,37 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Text(controller.movie.value?.title ?? 'Detalhes:')),
+        title: Obx(
+          () => Text(controller.movie.value?.title ?? 'Detalhes:'),
+        ),
         elevation: 0,
         leading: InkWell(
           onTap: () => Get.back(),
           child: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
+        actions: [
+          Obx(() => controller.isAdmin.value
+              ? IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () => Get.defaultDialog(
+                      onConfirm: () {
+                        print('ADD');
+                      },
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              label: Text('Magnet link'),
+                            ),
+                          )
+                        ],
+                      )),
+                  icon: const Icon(Icons.add),
+                )
+              : Container())
+        ],
       ),
       body: SingleChildScrollView(
           child: Obx(

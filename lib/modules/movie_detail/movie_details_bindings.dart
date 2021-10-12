@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 class MovieDetailsBindings implements Bindings {
   @override
   void dependencies() {
-    Get.put(MovieDetailsController(moviesService: Get.find()));
+    Get.put(MovieDetailsController(
+      moviesService: Get.find(),
+      authService: Get.find(),
+    ));
   }
 }

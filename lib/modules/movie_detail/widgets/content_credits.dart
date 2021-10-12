@@ -22,12 +22,16 @@ class ContentCredits extends GetView<MovieDetailsController> {
                 ? null
                 : () => Get.defaultDialog(
                       title: 'Baixar Filme',
-                      confirm: ElevatedButton.icon(
-                        onPressed: () =>
-                            controller.launchURL(movie?.download ?? ''),
-                        icon: const Icon(Icons.download_rounded),
-                        label: const Text('Download'),
-                      ),
+                      onConfirm: () =>
+                          controller.launchURL(movie?.download ?? ''),
+                      // confirm: ElevatedButton.icon(
+                      //   onPressed: () =>
+                      //       controller.launchURL(movie?.download ?? ''),
+                      //   icon: const Icon(Icons.download_rounded),
+                      //   label: const Text('Download'),
+                      // ),
+                      textConfirm: 'Baixar',
+                      confirmTextColor: Colors.white,
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

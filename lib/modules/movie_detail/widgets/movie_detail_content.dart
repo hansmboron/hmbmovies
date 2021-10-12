@@ -3,6 +3,7 @@ import 'package:app_movies/modules/movie_detail/widgets/content_credits.dart';
 import 'package:app_movies/modules/movie_detail/widgets/content_main_cast.dart';
 import 'package:app_movies/modules/movie_detail/widgets/content_production_companies.dart';
 import 'package:app_movies/modules/movie_detail/widgets/content_title.dart';
+import 'package:app_movies/modules/movie_detail/widgets/content_trailer.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailContent extends StatelessWidget {
@@ -19,6 +20,9 @@ class MovieDetailContent extends StatelessWidget {
         children: [
           ContentTitle(movie: movie),
           ContentCredits(movie: movie),
+          movie?.youtube == null || movie?.youtube == ''
+              ? Container()
+              : ContentTrailer(movie: movie),
           ContentProductionCompanies(movie: movie),
           ContentMainCast(movie: movie),
         ],
