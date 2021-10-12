@@ -36,16 +36,17 @@ class MoviesGroup extends GetView<MovieController> {
             child: Obx(
               () => ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemCount: movies.length,
-                shrinkWrap: true,
+                // controller: controller.popularScroll,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   var movie = movies[index];
+                  controller.handleScrollWithIndex(index);
                   return MovieCard(
                     movie: movie,
                     favoriteCallback: () => controller.favoriteMovie(movie),
                   );
                 },
+                itemCount: movies.length,
               ),
             )),
       ],

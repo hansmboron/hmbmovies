@@ -13,18 +13,19 @@ class MovieDetailsModel {
   final List<String> productionCompanies;
   final String originalLanguage;
   final List<CastModel> cast;
+  final String download;
 
-  MovieDetailsModel({
-    required this.title,
-    required this.stars,
-    required this.genres,
-    required this.urlImages,
-    required this.releaseDate,
-    required this.overview,
-    required this.productionCompanies,
-    required this.originalLanguage,
-    required this.cast,
-  });
+  MovieDetailsModel(
+      {required this.title,
+      required this.stars,
+      required this.genres,
+      required this.urlImages,
+      required this.releaseDate,
+      required this.overview,
+      required this.productionCompanies,
+      required this.originalLanguage,
+      required this.cast,
+      this.download = ''});
 
   Map<String, dynamic> toMap() {
     return {
@@ -70,4 +71,29 @@ class MovieDetailsModel {
 
   factory MovieDetailsModel.fromJson(String source) =>
       MovieDetailsModel.fromMap(json.decode(source));
+
+  MovieDetailsModel copyWith(
+      {String? title,
+      double? stars,
+      List<GenreModel>? genres,
+      List<String>? urlImages,
+      DateTime? releaseDate,
+      String? overview,
+      List<String>? productionCompanies,
+      String? originalLanguage,
+      List<CastModel>? cast,
+      String? download}) {
+    return MovieDetailsModel(
+      title: title ?? this.title,
+      stars: stars ?? this.stars,
+      genres: genres ?? this.genres,
+      urlImages: urlImages ?? this.urlImages,
+      releaseDate: releaseDate ?? this.releaseDate,
+      overview: overview ?? this.overview,
+      productionCompanies: productionCompanies ?? this.productionCompanies,
+      originalLanguage: originalLanguage ?? this.originalLanguage,
+      cast: cast ?? this.cast,
+      download: download ?? this.download,
+    );
+  }
 }

@@ -18,6 +18,12 @@ class MovieController extends GetxController with MessagesMixin {
   final latestMovies = <MovieModel>[].obs;
   final genreSelected = Rxn<GenreModel>();
 
+  // final ScrollController popularScroll = ScrollController();
+
+  var _page1 = 1.obs;
+  var _page2 = 1.obs;
+  var _page3 = 1.obs;
+
   var _popularMoviesOriginal = <MovieModel>[];
   var _topRatedMoviesOriginal = <MovieModel>[];
   var _latestMoviesOriginal = <MovieModel>[];
@@ -41,7 +47,6 @@ class MovieController extends GetxController with MessagesMixin {
     try {
       final genData = await _genresService.getGenres();
       genres.assignAll(genData);
-
       await getMovies();
     } catch (e) {
       // ignore: avoid_print
@@ -55,9 +60,12 @@ class MovieController extends GetxController with MessagesMixin {
   }
 
   Future<void> getMovies() async {
-    var popularMoviesData = await _moviesService.getPopularMovies();
-    var topRatedMoviesData = await _moviesService.getTopRated();
-    var latestMoviesData = await _moviesService.getLatest();
+    _page1.value = 1;
+    _page2.value = 1;
+    _page3.value = 1;
+    var popularMoviesData = await _moviesService.getPopularMovies('1');
+    var topRatedMoviesData = await _moviesService.getTopRated('1');
+    var latestMoviesData = await _moviesService.getLatest('1');
     final favorites = await getFavorites();
 
     popularMoviesData = popularMoviesData.map((m) {
@@ -149,7 +157,10 @@ class MovieController extends GetxController with MessagesMixin {
     if (user != null) {
       var newMovie = movie.copyWith(favorite: !movie.favorite);
       await _moviesService.addOrRemoveFavorite(user.uid, newMovie);
-      await getMovies();
+      // await getMovies();
+      _message(MessageModel.info(
+          title: 'Adicionado ou Removido dos favoritos com sucesso!',
+          message: movie.title));
     }
   }
 
@@ -162,6 +173,82 @@ class MovieController extends GetxController with MessagesMixin {
       };
     } else {
       return {};
+    }
+  }
+
+  String nextPage1() {
+    var page = _page1++;
+    return page.toString();
+  }
+
+  String nextPage2() {
+    var page = _page2++;
+    return page.toString();
+  }
+
+  String nextPage3() {
+    var page = _page3++;
+    return page.toString();
+  }
+
+  Future<void> getNextLatest() async {
+    var latestMoviesData = await _moviesService.getLatest(nextPage1());
+    final favorites = await getFavorites();
+
+    latestMoviesData = latestMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    latestMovies.addAll(latestMoviesData);
+    _latestMoviesOriginal = latestMoviesData;
+  }
+
+  Future<void> getNextPop() async {
+    var popularMoviesData = await _moviesService.getPopularMovies(nextPage2());
+    final favorites = await getFavorites();
+
+    popularMoviesData = popularMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    popularMovies.addAll(popularMoviesData);
+    _latestMoviesOriginal = popularMoviesData;
+  }
+
+  Future<void> getNextTop() async {
+    var topMoviesData = await _moviesService.getTopRated(nextPage3());
+    final favorites = await getFavorites();
+
+    topMoviesData = topMoviesData.map((m) {
+      if (favorites.containsKey(m.id)) {
+        return m.copyWith(favorite: true);
+      } else {
+        return m.copyWith(favorite: false);
+      }
+    }).toList();
+
+    topRatedMovies.addAll(topMoviesData);
+    _latestMoviesOriginal = topMoviesData;
+  }
+
+  void handleScrollWithIndex(int index) {
+    final itemPosition = index + 1;
+    final requestMoreData = itemPosition % 20 == 0 && itemPosition != 0;
+    final pageToRequest = itemPosition ~/ 20;
+
+    if (requestMoreData && pageToRequest + 1 >= _page1.value) {
+      getNextLatest();
+      getNextTop();
+      getNextPop();
+      print('OBTEVE');
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailsController extends GetxController
     with LoaderMixin, MessagesMixin {
@@ -41,4 +42,14 @@ class MovieDetailsController extends GetxController
     }
     super.onReady();
   }
+
+  Future<void> launchURL(String url) async => await canLaunch(url)
+      ? await launch(
+          url,
+          enableJavaScript: true,
+          universalLinksOnly: false,
+          enableDomStorage: true,
+        )
+      : message(
+          MessageModel.error(title: 'Erro', message: 'Erro ao abrir link'));
 }

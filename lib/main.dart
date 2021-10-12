@@ -16,9 +16,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   RemoteConfig.instance.fetchAndActivate();
   runApp(const MyApp());
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.white,
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: Colors.white54,
+  // ));
 }
 
 class MyApp extends StatelessWidget {

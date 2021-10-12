@@ -14,7 +14,10 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
       appBar: AppBar(
         title: Obx(() => Text(controller.movie.value?.title ?? 'Detalhes:')),
         elevation: 0,
-        leading: const Icon(Icons.arrow_back_ios_new_rounded),
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: const Icon(Icons.arrow_back_ios_new_rounded),
+        ),
       ),
       body: SingleChildScrollView(
           child: Obx(

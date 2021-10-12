@@ -31,7 +31,7 @@ class MovieHeader extends GetView<MovieController> {
                 ),
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Procurar Filmes',
+                labelText: 'Filtrar Filmes',
                 labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
                 contentPadding: EdgeInsets.zero,
                 prefixIcon: const Icon(Icons.search),

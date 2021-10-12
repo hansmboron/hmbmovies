@@ -15,12 +15,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }) : _restClient = restClient;
 
   @override
-  Future<List<MovieModel>> getPopularMovies() async {
+  Future<List<MovieModel>> getPopularMovies([String page = '1']) async {
     final result =
         await _restClient.get<List<MovieModel>>('/movie/popular', query: {
       'api_key': RemoteConfig.instance.getString('api_token'),
       'language': 'pt-br',
-      // 'page': '1'
+      'page': page
     }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
@@ -37,12 +37,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<List<MovieModel>> getTopRated() async {
+  Future<List<MovieModel>> getTopRated([String page = '1']) async {
     final result =
         await _restClient.get<List<MovieModel>>('/movie/top_rated', query: {
       'api_key': RemoteConfig.instance.getString('api_token'),
       'language': 'pt-br',
-      // 'page': '1'
+      'page': page
     }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
@@ -59,31 +59,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<MovieDetailsModel?> getDetail(int id) async {
-    final result =
-        await _restClient.get<MovieDetailsModel>('/movie/$id', query: {
-      'api_key': RemoteConfig.instance.getString('api_token'),
-      'language': 'pt-br',
-      'append_to_response': 'images,credits',
-      'include_image_language': 'en,pt-br'
-    }, decoder: (data) {
-      return MovieDetailsModel.fromMap(data);
-    });
-
-    if (result.hasError) {
-      print(result.statusText);
-      throw Exception('Erro ao buscar detalhes do filme!');
-    }
-    return result.body;
-  }
-
-  @override
-  Future<List<MovieModel>> getLatest() async {
+  Future<List<MovieModel>> getLatest([String page = '1']) async {
     final result =
         await _restClient.get<List<MovieModel>>('/movie/upcoming', query: {
       'api_key': RemoteConfig.instance.getString('api_token'),
       'language': 'pt-br',
-      // 'page': '1'
+      'page': page
     }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
@@ -97,6 +78,42 @@ class MoviesRepositoryImpl extends MoviesRepository {
       throw Exception('Erro ao buscar filmes lançamentos!');
     }
     return result.body ?? <MovieModel>[];
+  }
+
+  @override
+  Future<MovieDetailsModel?> getDetail(int id) async {
+    print('MOVIE ID: ${id.toString()}');
+    var link = await getDownload(movieId: id);
+    final result =
+        await _restClient.get<MovieDetailsModel>('/movie/$id', query: {
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-br',
+      'append_to_response': 'images,credits',
+      'include_image_language': 'en,pt-br'
+    }, decoder: (data) {
+      var withDown = MovieDetailsModel.fromMap(data).copyWith(download: link);
+      return withDown;
+    });
+
+    if (result.hasError) {
+      print(result.statusText);
+      throw Exception('Erro ao buscar detalhes do filme!');
+    }
+    return result.body;
+  }
+
+  Future<String> getDownload({required int movieId}) async {
+    try {
+      var downLinks = await FirebaseFirestore.instance
+          .collection('down')
+          .doc(movieId.toString())
+          .get();
+
+      return downLinks.data()?['link'] ?? '';
+    } catch (e) {
+      print(e);
+      return '';
+    }
   }
 
   @override

@@ -11,13 +11,15 @@ class MoviesServiceImpl implements MoviesService {
       : _moviesRepository = moviesRepository;
 
   @override
-  Future<List<MovieModel>> getPopularMovies() =>
-      _moviesRepository.getPopularMovies();
+  Future<List<MovieModel>> getPopularMovies(String page) =>
+      _moviesRepository.getPopularMovies(page);
   @override
-  Future<List<MovieModel>> getTopRated() => _moviesRepository.getTopRated();
+  Future<List<MovieModel>> getTopRated(String page) =>
+      _moviesRepository.getTopRated(page);
 
   @override
-  Future<List<MovieModel>> getLatest() => _moviesRepository.getLatest();
+  Future<List<MovieModel>> getLatest(String page) =>
+      _moviesRepository.getLatest(page);
 
   @override
   Future<MovieDetailsModel?> getDetail(int id) =>
