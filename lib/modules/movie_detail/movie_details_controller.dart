@@ -46,9 +46,7 @@ class MovieDetailsController extends GetxController
   Future<void> launchURL(String url) async => await canLaunch(url)
       ? await launch(
           url,
-          enableJavaScript: true,
           universalLinksOnly: false,
-          enableDomStorage: true,
         )
       : message(
           MessageModel.error(title: 'Erro', message: 'Erro ao abrir link'));

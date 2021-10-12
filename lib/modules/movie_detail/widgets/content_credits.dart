@@ -20,10 +20,48 @@ class ContentCredits extends GetView<MovieDetailsController> {
           ElevatedButton.icon(
             onPressed: movie?.download == '' || movie?.download == null
                 ? null
-                : () => controller.launchURL(movie?.download ?? ''),
+                : () => Get.defaultDialog(
+                      title: 'Baixar Filme',
+                      confirm: ElevatedButton.icon(
+                        onPressed: () =>
+                            controller.launchURL(movie?.download ?? ''),
+                        icon: const Icon(Icons.download_rounded),
+                        label: const Text('Download'),
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                                text: 'Para fazer o download do filme ',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: movie?.title ?? "",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                      text:
+                                          ' primeiro baixe um applicativo de torrent, como por exemplo: \nUTorrent\nFlud\nBitTorrent')
+                                ]),
+                          ),
+                          const SizedBox(height: 16),
+                          SelectableText(
+                            movie?.download ?? '',
+                            style: const TextStyle(
+                                fontSize: 11, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
             icon: const Icon(Icons.download_rounded),
             label: const Text('Download Torrent'),
-          )
+          ),
         ],
       ),
     );
