@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +7,9 @@ mixin LoaderMixin on GetxController {
       if (loading) {
         await Get.dialog(
           const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Color(0xffea4335),
+            ),
           ),
           barrierDismissible: false,
         );

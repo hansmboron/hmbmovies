@@ -7,6 +7,7 @@ class FilmesAppUiConfig {
   static ThemeData get theme => ThemeData(
         // fontFamily: 'Metropolis',
         scaffoldBackgroundColor: Colors.white,
+        primarySwatch: Colors.red,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(

@@ -1,4 +1,5 @@
 import 'package:app_movies/application/auth/auth_service.dart';
+import 'package:app_movies/application/ui/loader/loader_mixin.dart';
 import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/genre_model.dart';
 import 'package:app_movies/models/movie_model.dart';
@@ -7,12 +8,13 @@ import 'package:app_movies/services/movies/movies_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MovieController extends GetxController with MessagesMixin {
+class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   final GenresService _genresService;
   final MoviesService _moviesService;
   final AuthService _authService;
 
   final _message = Rxn<MessageModel>();
+  final loading = false.obs;
   final genres = <GenreModel>[].obs;
   final popularMovies = <MovieModel>[].obs;
   final topRatedMovies = <MovieModel>[].obs;
@@ -44,6 +46,7 @@ class MovieController extends GetxController with MessagesMixin {
 
   @override
   void onInit() {
+    loaderListener(loading);
     messageListener(_message);
     super.onInit();
   }
@@ -131,9 +134,11 @@ class MovieController extends GetxController with MessagesMixin {
   Future<void> searchMovies(String name) async {
     queryList.clear();
     if (name.isNotEmpty) {
+      loading(true);
       var _newResultList = await _moviesService.searchMovies(name);
-
       queryList.assignAll(_newResultList);
+      loading(false);
+
       if (queryList.length == 0) {
         _message(MessageModel.error(
             title: 'Nada encontrado!',
