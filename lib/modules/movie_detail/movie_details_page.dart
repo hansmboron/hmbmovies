@@ -10,46 +10,50 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
 
   @override
   Widget build(BuildContext context) {
+    int _orientation = MediaQuery.of(context).orientation.index;
+    const int _portrait = 0;
     return Scaffold(
-      appBar: AppBar(
-        title: Obx(
-          () => Text(controller.movie.value?.title ?? 'Detalhes:'),
-        ),
-        elevation: 0,
-        leading: InkWell(
-          onTap: () => Get.back(),
-          child: const Icon(Icons.arrow_back_ios_new_rounded),
-        ),
-        actions: [
-          Obx(() => controller.isAdmin.value
-              ? IconButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () => Get.defaultDialog(
-                      onConfirm: () => controller.addTorrent(),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            autocorrect: false,
-                            controller: controller.torrentCtrl,
-                            decoration: const InputDecoration(
-                              label: Text('Magnet link'),
-                            ),
-                          ),
-                          TextField(
-                            autocorrect: false,
-                            controller: controller.trailerCtrl,
-                            decoration: const InputDecoration(
-                              label: Text('Youtube'),
-                            ),
-                          ),
-                        ],
-                      )),
-                  icon: const Icon(Icons.add),
-                )
-              : Container())
-        ],
-      ),
+      appBar: _orientation == _portrait
+          ? AppBar(
+              title: Obx(
+                () => Text(controller.movie.value?.title ?? 'Detalhes:'),
+              ),
+              elevation: 0,
+              leading: InkWell(
+                onTap: () => Get.back(),
+                child: const Icon(Icons.arrow_back_ios_new_rounded),
+              ),
+              actions: [
+                Obx(() => controller.isAdmin.value
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () => Get.defaultDialog(
+                            onConfirm: () => controller.addTorrent(),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  autocorrect: false,
+                                  controller: controller.torrentCtrl,
+                                  decoration: const InputDecoration(
+                                    label: Text('Magnet link'),
+                                  ),
+                                ),
+                                TextField(
+                                  autocorrect: false,
+                                  controller: controller.trailerCtrl,
+                                  decoration: const InputDecoration(
+                                    label: Text('Youtube'),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        icon: const Icon(Icons.add),
+                      )
+                    : Container())
+              ],
+            )
+          : null,
       body: SingleChildScrollView(
           child: Obx(
         () => Column(

@@ -24,7 +24,11 @@ class LoginPage extends GetView<LoginController> {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: Get.height * 0.17),
-                child: Image.asset('assets/images/logo.png'),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: Get.width * 0.4,
+                  width: Get.width * 0.4,
+                ),
               ),
               InkWell(
                 onTap: () => controller.login(),

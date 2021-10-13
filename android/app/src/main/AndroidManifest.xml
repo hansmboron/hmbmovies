@@ -1,8 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.hansmboron.app_movies">
-   <application
-        android:label="app_movies"
-        android:icon="@mipmap/ic_launcher">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <queries>
+      <!-- If your app opens https URLs -->
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="https" />
+      </intent>
+    </queries>
+
+    <application
+        android:label="HMB Filmes"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

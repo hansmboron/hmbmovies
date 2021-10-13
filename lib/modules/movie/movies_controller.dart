@@ -4,6 +4,7 @@ import 'package:app_movies/models/genre_model.dart';
 import 'package:app_movies/models/movie_model.dart';
 import 'package:app_movies/services/genres/genres_service.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MovieController extends GetxController with MessagesMixin {
@@ -16,7 +17,12 @@ class MovieController extends GetxController with MessagesMixin {
   final popularMovies = <MovieModel>[].obs;
   final topRatedMovies = <MovieModel>[].obs;
   final latestMovies = <MovieModel>[].obs;
+  final queryList = <MovieModel>[].obs;
   final genreSelected = Rxn<GenreModel>();
+
+  final TextEditingController searchCtrl = TextEditingController();
+
+  RxBool get hasResult => (queryList.length > 0).obs;
 
   // final ScrollController popularScroll = ScrollController();
 
@@ -119,6 +125,24 @@ class MovieController extends GetxController with MessagesMixin {
       popularMovies.assignAll(_popularMoviesOriginal);
       topRatedMovies.assignAll(_topRatedMoviesOriginal);
       latestMovies.assignAll(_latestMoviesOriginal);
+    }
+  }
+
+  Future<void> searchMovies(String name) async {
+    queryList.clear();
+    if (name.isNotEmpty) {
+      var _newResultList = await _moviesService.searchMovies(name);
+
+      queryList.assignAll(_newResultList);
+      if (queryList.length == 0) {
+        _message(MessageModel.error(
+            title: 'Nada encontrado!',
+            message: 'Verifique se digitou corretamente'));
+      }
+    } else {
+      _message(MessageModel.error(
+          title: 'Nada encontrado!',
+          message: 'Verifique se digitou corretamente'));
     }
   }
 

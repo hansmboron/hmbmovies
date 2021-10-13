@@ -67,7 +67,8 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  dateFormat.format(DateTime.parse(movie.releaseDate)),
+                  dateFormat.format(
+                      DateTime.tryParse(movie.releaseDate) ?? DateTime(1970)),
                   style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 11,

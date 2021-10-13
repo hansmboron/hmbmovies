@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FilmesAppUiConfig {
   FilmesAppUiConfig._();
 
-  static String get title => 'HMB Movies';
+  static String get title => 'HMB Filmes';
   static ThemeData get theme => ThemeData(
         // fontFamily: 'Metropolis',
         scaffoldBackgroundColor: Colors.white,

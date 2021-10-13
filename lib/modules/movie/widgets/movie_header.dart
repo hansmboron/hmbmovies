@@ -7,31 +7,37 @@ class MovieHeader extends GetView<MovieController> {
 
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
     return SizedBox(
-      width: Get.width,
-      height: Get.height * 0.27,
+      width: _size.width,
+      height: _size.height * 0.25,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           SizedBox(
-            width: Get.width,
+            width: _size.width,
             child: Image.asset(
               'assets/images/header.png',
               fit: BoxFit.cover,
             ),
           ),
           Container(
-            width: Get.width * 0.9,
-            padding: const EdgeInsets.only(bottom: 30),
+            width: _size.width * 0.9,
+            padding: const EdgeInsets.only(bottom: 20),
             child: TextField(
-              onChanged: (value) => controller.filterByName(value),
+              controller: controller.searchCtrl,
+              textInputAction: TextInputAction.search,
+              // onChanged: (value) => controller.filterByName(value),
+              onSubmitted: (value) async {
+                await controller.searchMovies(value.toString());
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Filtrar Filmes',
+                labelText: 'Pesquisar Filmes',
                 labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
                 contentPadding: EdgeInsets.zero,
                 prefixIcon: const Icon(Icons.search),

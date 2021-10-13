@@ -15,7 +15,19 @@ class MoviesPage extends GetView<MovieController> {
         physics: const BouncingScrollPhysics(),
         children: [
           const MovieHeader(),
-          const MoviesFilters(),
+          // const MoviesFilters(),
+          Obx(
+            () => controller.hasResult.value
+                ? MoviesGroup(
+                    title: 'Resultados:  ${controller.queryList.length}',
+                    movies: controller.queryList,
+                    onPressed: () {
+                      controller.queryList.clear();
+                      controller.searchCtrl.text = '';
+                    },
+                  )
+                : Container(),
+          ),
           MoviesGroup(
             title: 'Últimos lançamentos',
             movies: controller.latestMovies,
