@@ -32,4 +32,8 @@ class MoviesServiceImpl implements MoviesService {
   @override
   Future<List<MovieModel>> getFavoritiesMovies(String userId) =>
       _moviesRepository.getFavoritiesMovies(userId);
+
+  @override
+  Future<void> addTorrent(String movieId, String link, String youtube) =>
+      _moviesRepository.addTorrent(movieId, link, youtube);
 }

@@ -4,6 +4,7 @@ import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,11 +13,16 @@ class MovieDetailsController extends GetxController
   final MoviesService _moviesService;
   final AuthService _authService;
 
+  TextEditingController torrentCtrl = TextEditingController();
+  TextEditingController trailerCtrl = TextEditingController();
+
   var loading = false.obs;
   var message = Rxn<MessageModel>();
   var movie = Rxn<MovieDetailsModel>();
 
   var isAdmin = false.obs;
+
+  var movieId = 0;
 
   MovieDetailsController({
     required MoviesService moviesService,
@@ -40,7 +46,7 @@ class MovieDetailsController extends GetxController
   @override
   Future<void> onReady() async {
     try {
-      final movieId = Get.arguments;
+      movieId = Get.arguments;
       loading(true);
       final movieDetailData = await _moviesService.getDetail(movieId);
       movie.value = movieDetailData;
@@ -54,6 +60,18 @@ class MovieDetailsController extends GetxController
           title: 'Erro', message: 'Erro ao buscar detalhe do filme'));
     }
     super.onReady();
+  }
+
+  Future<void> addTorrent() async {
+    try {
+      await _moviesService.addTorrent(
+          movieId.toString(), torrentCtrl.text, trailerCtrl.text);
+      message(
+          MessageModel.info(title: 'Sucesso', message: 'Torrent adicionado'));
+    } catch (e) {
+      message(
+          MessageModel.error(title: 'Erro', message: 'Erro ao add torrent'));
+    }
   }
 
   Future<void> launchURL(String url) async => await canLaunch(url)

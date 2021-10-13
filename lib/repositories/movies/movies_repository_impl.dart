@@ -163,4 +163,19 @@ class MoviesRepositoryImpl extends MoviesRepository {
       return <MovieModel>[];
     }
   }
+
+  @override
+  Future<void> addTorrent(String movieId, String link, String youtube) async {
+    try {
+      var down = FirebaseFirestore.instance.collection('down');
+      down.doc(movieId).set({
+        'link': link,
+        'youtube': youtube,
+      });
+    } catch (e) {
+      print(e);
+      print('Erro ao adicionar link');
+      rethrow;
+    }
+  }
 }

@@ -25,18 +25,24 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
               ? IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () => Get.defaultDialog(
-                      onConfirm: () {
-                        print('ADD');
-                      },
+                      onConfirm: () => controller.addTorrent(),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextField(
                             autocorrect: false,
-                            decoration: InputDecoration(
+                            controller: controller.torrentCtrl,
+                            decoration: const InputDecoration(
                               label: Text('Magnet link'),
                             ),
-                          )
+                          ),
+                          TextField(
+                            autocorrect: false,
+                            controller: controller.trailerCtrl,
+                            decoration: const InputDecoration(
+                              label: Text('Youtube'),
+                            ),
+                          ),
                         ],
                       )),
                   icon: const Icon(Icons.add),
