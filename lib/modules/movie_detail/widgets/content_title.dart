@@ -2,11 +2,13 @@ import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:intl/intl.dart';
 
 class ContentTitle extends StatelessWidget {
-  const ContentTitle({Key? key, required this.movie}) : super(key: key);
+  ContentTitle({Key? key, required this.movie}) : super(key: key);
 
   final MovieDetailsModel? movie;
+  final dateFormat = DateFormat('y');
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class ContentTitle extends StatelessWidget {
       children: [
         const SizedBox(height: 8),
         Text(
-          movie?.title ?? '',
+          '${movie?.title ?? ''} (${dateFormat.format(movie?.releaseDate ?? DateTime(0))})',
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,

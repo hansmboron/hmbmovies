@@ -11,7 +11,6 @@ class MoviesPage extends GetView<MovieController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        physics: const BouncingScrollPhysics(),
         children: [
           const MovieHeader(),
           // const MoviesFilters(),

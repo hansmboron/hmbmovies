@@ -133,21 +133,22 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
 
   Future<void> searchMovies(String name) async {
     queryList.clear();
-    if (name.isNotEmpty) {
-      loading(true);
-      var _newResultList = await _moviesService.searchMovies(name);
-      queryList.assignAll(_newResultList);
-      loading(false);
+    try {
+      if (name.isNotEmpty) {
+        loading(true);
+        var _newResultList = await _moviesService.searchMovies(name);
+        queryList.assignAll(_newResultList);
+        loading(false);
 
-      if (queryList.length == 0) {
-        _message(MessageModel.error(
-            title: 'Nada encontrado!',
-            message: 'Verifique se digitou corretamente'));
+        if (queryList.length == 0) {
+          _message(MessageModel.error(
+              title: 'Nada encontrado!', message: 'Tente digitar outra coisa'));
+        }
+      } else {
+        _message(MessageModel.error(title: 'Erro!', message: 'Nada digitado'));
       }
-    } else {
-      _message(MessageModel.error(
-          title: 'Nada encontrado!',
-          message: 'Verifique se digitou corretamente'));
+    } catch (e) {
+      _message(MessageModel.error(title: 'Erro!', message: e.toString()));
     }
   }
 

@@ -28,9 +28,9 @@ class MovieCard extends StatelessWidget {
         width: 124,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.black.withAlpha(15),
-        ),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [BoxShadow(color: context.themeGrey, blurRadius: 6)]),
         child: Stack(
           children: [
             Column(
@@ -68,7 +68,7 @@ class MovieCard extends StatelessWidget {
                 ),
                 Text(
                   dateFormat.format(
-                      DateTime.tryParse(movie.releaseDate) ?? DateTime(1970)),
+                      DateTime.tryParse(movie.releaseDate) ?? DateTime(0)),
                   style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 11,
@@ -78,7 +78,7 @@ class MovieCard extends StatelessWidget {
               ],
             ),
             Positioned(
-              bottom: 38,
+              bottom: 40,
               right: -6,
               child: Material(
                 color: Colors.white.withAlpha(240),

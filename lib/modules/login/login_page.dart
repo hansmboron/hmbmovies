@@ -12,7 +12,7 @@ class LoginPage extends GetView<LoginController> {
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'assets/images/bg.png',
+            'assets/images/bg.jpg',
             width: Get.width,
             height: Get.height,
             fit: BoxFit.cover,

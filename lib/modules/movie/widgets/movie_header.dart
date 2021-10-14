@@ -1,3 +1,4 @@
+import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/modules/movie/movies_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ class MovieHeader extends GetView<MovieController> {
           SizedBox(
             width: _size.width,
             child: Image.asset(
-              'assets/images/header.png',
+              'assets/images/header2.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -39,9 +40,19 @@ class MovieHeader extends GetView<MovieController> {
                 fillColor: Colors.white,
                 labelText: 'Pesquisar Filmes',
                 labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
-                contentPadding: EdgeInsets.zero,
-                prefixIcon: const Icon(Icons.search),
+                contentPadding: EdgeInsets.only(left: 20),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
+                suffixIcon: Container(
+                  decoration: BoxDecoration(
+                    color: context.themeOrange,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () async => await controller
+                        .searchMovies(controller.searchCtrl.text),
+                  ),
+                ),
               ),
             ),
           )
