@@ -29,9 +29,9 @@ class MovieHeader extends GetView<MovieController> {
               controller: controller.searchCtrl,
               textInputAction: TextInputAction.search,
               // onChanged: (value) => controller.filterByName(value),
-              onSubmitted: (value) async {
-                await controller.searchMovies(value.toString());
-              },
+              // onSubmitted: (value) async {
+              //   await controller.searchMovies(value.toString());
+              // },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
@@ -49,8 +49,11 @@ class MovieHeader extends GetView<MovieController> {
                   ),
                   child: IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () async => await controller
-                        .searchMovies(controller.searchCtrl.text),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      await controller.searchMovies(controller.searchCtrl.text);
+                      print('TEXTO ENVIADO: ${controller.searchCtrl.text}');
+                    },
                   ),
                 ),
               ),

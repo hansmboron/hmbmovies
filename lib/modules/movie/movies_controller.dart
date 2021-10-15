@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MovieController extends GetxController with MessagesMixin, LoaderMixin {
-  final GenresService _genresService;
+  // final GenresService _genresService;
   final MoviesService _moviesService;
   final AuthService _authService;
 
@@ -25,9 +25,6 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   final TextEditingController searchCtrl = TextEditingController();
 
   RxBool get hasResult => (queryList.length > 0).obs;
-
-  // final ScrollController popularScroll = ScrollController();
-
   var _page1 = 1.obs;
   var _page2 = 1.obs;
   var _page3 = 1.obs;
@@ -40,8 +37,7 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     required GenresService genresService,
     required MoviesService moviesService,
     required AuthService authService,
-  })  : _genresService = genresService,
-        _moviesService = moviesService,
+  })  : _moviesService = moviesService,
         _authService = authService;
 
   @override
@@ -54,8 +50,8 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   @override
   Future<void> onReady() async {
     try {
-      final genData = await _genresService.getGenres();
-      genres.assignAll(genData);
+      // final genData = await _genresService.getGenres();
+      // genres.assignAll(genData);
       await getMovies();
     } catch (e) {
       // ignore: avoid_print
@@ -132,23 +128,33 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   }
 
   Future<void> searchMovies(String name) async {
-    queryList.clear();
     try {
-      if (name.isNotEmpty) {
-        loading(true);
-        var _newResultList = await _moviesService.searchMovies(name);
-        queryList.assignAll(_newResultList);
-        loading(false);
+      if (name != null || name != '') {
+        loading.value = true;
+        List<MovieModel> _newResultList =
+            await _moviesService.searchMovies(name);
 
-        if (queryList.length == 0) {
+        queryList.clear();
+        // queryList.assignAll(_newResultList);
+        for (var item in _newResultList) {
+          queryList.add(item);
+        }
+
+        loading.value = false;
+
+        if (queryList.isEmpty) {
           _message(MessageModel.error(
               title: 'Nada encontrado!', message: 'Tente digitar outra coisa'));
         }
       } else {
         _message(MessageModel.error(title: 'Erro!', message: 'Nada digitado'));
       }
-    } catch (e) {
-      _message(MessageModel.error(title: 'Erro!', message: e.toString()));
+    } catch (e, s) {
+      loading.value = false;
+      print(e);
+      print(s);
+      _message(MessageModel.error(
+          title: 'Erro!', message: '${e.toString()} | ${s.toString()}'));
     }
   }
 

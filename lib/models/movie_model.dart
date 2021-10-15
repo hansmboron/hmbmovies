@@ -4,7 +4,7 @@ class MovieModel {
   final int id;
   final String title;
   final String releaseDate;
-  final String posterPath;
+  final String? posterPath;
   final List<int> genres;
   final bool favorite;
 
@@ -22,7 +22,7 @@ class MovieModel {
       'id': id,
       'title': title,
       'release_date': releaseDate,
-      'poster_path': posterPath,
+      'poster_path': posterPath ?? '',
       'genre_ids': genres,
       'favorite': favorite,
     };
@@ -33,7 +33,7 @@ class MovieModel {
       id: map['id'] ?? 0,
       title: map['title'] ?? '',
       releaseDate: map['release_date'] ?? '',
-      posterPath: map['poster_path'],
+      posterPath: map['poster_path'] ?? '',
       genres: List<int>.from(map['genre_ids'] ?? const []),
       favorite: map['favorite'] ?? false,
     );

@@ -1,5 +1,7 @@
+import 'package:app_movies/application/ui/widgets/ad_container.dart';
 import 'package:app_movies/modules/movie_detail/movie_details_controller.dart';
 import 'package:app_movies/modules/movie_detail/widgets/movie_detail_content.dart';
+import 'package:app_movies/services/admob/admob_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -64,6 +66,12 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
           ],
         ),
       )),
+      bottomNavigationBar: _orientation == 1
+          ? null
+          : AdContainner(
+              height: 60,
+              ad: AdMobService.createBannerAd()..load(),
+            ),
     );
   }
 }

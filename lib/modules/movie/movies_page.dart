@@ -1,6 +1,8 @@
+import 'package:app_movies/application/ui/widgets/ad_container.dart';
 import 'package:app_movies/modules/movie/movies_controller.dart';
 import 'package:app_movies/modules/movie/widgets/movie_header.dart';
 import 'package:app_movies/modules/movie/widgets/movies_group.dart';
+import 'package:app_movies/services/admob/admob_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,11 +11,13 @@ class MoviesPage extends GetView<MovieController> {
 
   @override
   Widget build(BuildContext context) {
+    int _orientation = MediaQuery.of(context).orientation.index;
     return Scaffold(
       body: ListView(
         children: [
           const MovieHeader(),
           // const MoviesFilters(),
+
           Obx(
             () => controller.hasResult.value
                 ? MoviesGroup(
@@ -38,8 +42,18 @@ class MoviesPage extends GetView<MovieController> {
             title: 'Top filmes',
             movies: controller.topRatedMovies,
           ),
+          // AdContainner(
+          //   height: 301,
+          //   ad: AdMobService.createRectangleBannerAd()..load(),
+          // ),
         ],
       ),
+      bottomNavigationBar: _orientation == 1
+          ? null
+          : AdContainner(
+              height: 60,
+              ad: AdMobService.createBannerAd()..load(),
+            ),
     );
   }
 }

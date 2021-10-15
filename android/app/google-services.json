@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "537617838697-dj498dl9tktco2hg7hurdmcp1c2lf4k6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.hansmboron.app_movies",
+            "certificate_hash": "be4d31756ef903d7645111b58f7e3fa85c292e9b"
+          }
+        },
+        {
           "client_id": "537617838697-q39625c44o3idpl0avlra24hdvjqnq04.apps.googleusercontent.com",
           "client_type": 3
         }

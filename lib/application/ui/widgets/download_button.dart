@@ -22,7 +22,8 @@ class DownloadButton extends GetView<MovieDetailsController> {
       ),
       onPressed: movie?.download == '' || movie?.download == null
           ? null
-          : () => Get.defaultDialog(
+          : () {
+              Get.defaultDialog(
                 titleStyle: TextStyle(color: context.themeRed),
                 title: 'Baixar Filme',
                 onConfirm: () => controller.launchURL(movie?.download ?? ''),
@@ -92,7 +93,9 @@ class DownloadButton extends GetView<MovieDetailsController> {
                     )
                   ],
                 ),
-              ),
+              );
+              controller.showBigAd();
+            },
       icon: const Icon(Icons.download_rounded),
       label: const Text('Download Torrent'),
     );

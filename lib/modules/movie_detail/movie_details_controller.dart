@@ -2,6 +2,7 @@ import 'package:app_movies/application/auth/auth_service.dart';
 import 'package:app_movies/application/ui/loader/loader_mixin.dart';
 import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/movie_details_model.dart';
+import 'package:app_movies/services/admob/admob_service.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class MovieDetailsController extends GetxController
     with LoaderMixin, MessagesMixin {
   final MoviesService _moviesService;
   final AuthService _authService;
+  final AdMobService _adMobService;
 
   TextEditingController torrentCtrl = TextEditingController();
   TextEditingController trailerCtrl = TextEditingController();
@@ -24,11 +26,13 @@ class MovieDetailsController extends GetxController
 
   var movieId = 0;
 
-  MovieDetailsController({
-    required MoviesService moviesService,
-    required AuthService authService,
-  })  : _moviesService = moviesService,
-        _authService = authService;
+  MovieDetailsController(
+      {required MoviesService moviesService,
+      required AuthService authService,
+      required AdMobService adMobService})
+      : _moviesService = moviesService,
+        _authService = authService,
+        _adMobService = adMobService;
 
   @override
   void onInit() {
@@ -59,7 +63,12 @@ class MovieDetailsController extends GetxController
       message(MessageModel.error(
           title: 'Erro', message: 'Erro ao buscar detalhe do filme'));
     }
+    _adMobService.createIntertitialAd();
     super.onReady();
+  }
+
+  void showBigAd() {
+    _adMobService.showInterAd();
   }
 
   Future<void> addTorrent() async {

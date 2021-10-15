@@ -14,7 +14,7 @@ class SplashPage extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                image: AssetImage('assets/images/bg.png'),
+                image: AssetImage('assets/images/bg.jpg'),
                 fit: BoxFit.cover,
               ),
             ),

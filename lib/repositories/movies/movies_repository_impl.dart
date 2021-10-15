@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:app_movies/application/rest_client/rest_client.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/models/movie_model.dart';
@@ -9,7 +7,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class MoviesRepositoryImpl extends MoviesRepository {
   final RestClient _restClient;
-  final String _api = RemoteConfig.instance.getString('api_token');
+  // final String _api = RemoteConfig.instance.getString('api_token');
 
   MoviesRepositoryImpl({
     required RestClient restClient,
@@ -17,9 +15,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<List<MovieModel>> getPopularMovies([String page = '1']) async {
-    final result = await _restClient.get<List<MovieModel>>('/movie/popular',
-        query: {'api_key': _api, 'language': 'pt-br', 'page': page},
-        decoder: (data) {
+    final result =
+        await _restClient.get<List<MovieModel>>('/movie/popular', query: {
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-BR',
+      'page': page
+    }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
         return results.map<MovieModel>((m) => MovieModel.fromMap(m)).toList();
@@ -36,9 +37,12 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<List<MovieModel>> getTopRated([String page = '1']) async {
-    final result = await _restClient.get<List<MovieModel>>('/movie/top_rated',
-        query: {'api_key': _api, 'language': 'pt-br', 'page': page},
-        decoder: (data) {
+    final result =
+        await _restClient.get<List<MovieModel>>('/movie/top_rated', query: {
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-BR',
+      'page': page
+    }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
         return results.map<MovieModel>((m) => MovieModel.fromMap(m)).toList();
@@ -55,14 +59,18 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<List<MovieModel>> getLatest([String page = '1']) async {
-    final result = await _restClient.get<List<MovieModel>>('/movie/upcoming',
-        query: {'api_key': _api, 'language': 'pt-br', 'page': page},
-        decoder: (data) {
+    final result =
+        await _restClient.get<List<MovieModel>>('/movie/upcoming', query: {
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-BR',
+      'page': page,
+    }, decoder: (data) {
       final results = data['results'];
       if (results != null) {
         return results.map<MovieModel>((m) => MovieModel.fromMap(m)).toList();
+      } else {
+        return <MovieModel>[];
       }
-      return <MovieModel>[];
     });
 
     if (result.hasError) {
@@ -77,10 +85,10 @@ class MoviesRepositoryImpl extends MoviesRepository {
     var link = await getDownload(movieId: id);
     final result =
         await _restClient.get<MovieDetailsModel>('/movie/$id', query: {
-      'api_key': _api,
-      'language': 'pt-br',
+      'api_key': RemoteConfig.instance.getString('api_token'),
+      'language': 'pt-BR',
       'append_to_response': 'images,credits',
-      'include_image_language': 'en,pt-br'
+      'include_image_language': 'en,pt-BR'
     }, decoder: (data) {
       var withDown = MovieDetailsModel.fromMap(data).copyWith(
         download: link['link'],
@@ -173,19 +181,29 @@ class MoviesRepositoryImpl extends MoviesRepository {
 
   @override
   Future<List<MovieModel>> searchMovies(String name) async {
-    final result = await _restClient.get<List<MovieModel>>('/search/movie',
-        query: {'api_key': _api, 'query': name}, decoder: (data) {
-      final results = data['results'];
-      if (results != null) {
-        return results.map<MovieModel>((m) => MovieModel.fromMap(m)).toList();
-      }
-      return <MovieModel>[];
-    });
+    try {
+      final result =
+          await _restClient.get<List<MovieModel>>('/search/movie', query: {
+        'api_key': RemoteConfig.instance.getString('api_token'),
+        'query': name,
+        'language': 'pt-BR'
+      }, decoder: (data) {
+        final results = data['results'];
+        if (results.isNotEmpty) {
+          return results.map<MovieModel>((m) => MovieModel.fromMap(m)).toList();
+        } else {
+          return <MovieModel>[];
+        }
+      });
 
-    if (result.hasError) {
-      print(result.statusText);
-      throw Exception('Erro ao buscar filmes lançamentos!');
+      if (result.hasError) {
+        print(result.statusText);
+        throw Exception('Erro ao buscar filmes lançamentos!');
+      }
+      return result.body ?? <MovieModel>[];
+    } catch (e) {
+      print(e);
+      return <MovieModel>[];
     }
-    return result.body ?? <MovieModel>[];
   }
 }

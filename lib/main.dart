@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'application/bindings/application_bindings.dart';
 import 'modules/home/home_module.dart';
@@ -13,7 +14,8 @@ import 'modules/home/home_module.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  RemoteConfig.instance.fetchAndActivate();
+  await RemoteConfig.instance.fetchAndActivate();
+  await MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
