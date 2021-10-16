@@ -41,7 +41,7 @@ class HomePage extends GetView<HomeController> {
             unselectedItemColor: Colors.grey,
             onTap: controller.goToPage,
             currentIndex: controller.pageIndex,
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.movie),
                 label: 'Filmes',
@@ -51,8 +51,10 @@ class HomePage extends GetView<HomeController> {
                 label: 'Favoritos',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.logout),
-                label: 'Sair',
+                icon: controller.isLogedIn.value
+                    ? Icon(Icons.logout_rounded)
+                    : Icon(Icons.login_rounded),
+                label: controller.isLogedIn.value ? 'Sair' : 'Entrar',
               ),
             ],
           ),

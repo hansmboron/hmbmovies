@@ -25,6 +25,7 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   final TextEditingController searchCtrl = TextEditingController();
 
   RxBool get hasResult => (queryList.length > 0).obs;
+  RxBool get isLogedIn => (_authService.user != null).obs;
   var _page1 = 1.obs;
   var _page2 = 1.obs;
   var _page3 = 1.obs;
@@ -71,31 +72,33 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     var popularMoviesData = await _moviesService.getPopularMovies('1');
     var topRatedMoviesData = await _moviesService.getTopRated('1');
     var latestMoviesData = await _moviesService.getLatest('1');
-    final favorites = await getFavorites();
+    if (isLogedIn.value) {
+      final favorites = await getFavorites();
 
-    popularMoviesData = popularMoviesData.map((m) {
-      if (favorites.containsKey(m.id)) {
-        return m.copyWith(favorite: true);
-      } else {
-        return m.copyWith(favorite: false);
-      }
-    }).toList();
+      popularMoviesData = popularMoviesData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
 
-    topRatedMoviesData = topRatedMoviesData.map((m) {
-      if (favorites.containsKey(m.id)) {
-        return m.copyWith(favorite: true);
-      } else {
-        return m.copyWith(favorite: false);
-      }
-    }).toList();
+      topRatedMoviesData = topRatedMoviesData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
 
-    latestMoviesData = latestMoviesData.map((m) {
-      if (favorites.containsKey(m.id)) {
-        return m.copyWith(favorite: true);
-      } else {
-        return m.copyWith(favorite: false);
-      }
-    }).toList();
+      latestMoviesData = latestMoviesData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
+    }
 
     popularMovies.assignAll(popularMoviesData);
     _popularMoviesOriginal = popularMoviesData;
@@ -197,6 +200,11 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
       _message(MessageModel.info(
           title: 'Adicionado ou Removido dos favoritos com sucesso!',
           message: movie.title));
+    } else {
+      _message(MessageModel.error(
+          title: 'Usuário não logado!',
+          message:
+              'Faça login para poder adicionar o filme ${movie.title} aos favoritos!'));
     }
   }
 

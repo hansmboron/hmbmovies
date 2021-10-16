@@ -1,3 +1,4 @@
+import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/modules/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,9 +57,22 @@ class LoginPage extends GetView<LoginController> {
                       ),
                       const SizedBox(
                         width: 50,
-                      )
+                      ),
                     ],
                   ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              TextButton(
+                style: ButtonStyle(
+                  overlayColor:
+                      MaterialStateProperty.all<Color>(context.themeOrange),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white70),
+                ),
+                onPressed: () => Get.toNamed('/home'),
+                child: Text(
+                  'Entrar sem login',
                 ),
               )
             ],

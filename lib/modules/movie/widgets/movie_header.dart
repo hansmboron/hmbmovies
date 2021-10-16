@@ -52,11 +52,19 @@ class MovieHeader extends GetView<MovieController> {
                     onPressed: () async {
                       FocusScope.of(context).unfocus();
                       await controller.searchMovies(controller.searchCtrl.text);
-                      print('TEXTO ENVIADO: ${controller.searchCtrl.text}');
                     },
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            top: 4,
+            right: 8,
+            child: Switch(
+              inactiveTrackColor: Colors.white54,
+              value: true,
+              onChanged: (value) {},
             ),
           )
         ],

@@ -10,6 +10,7 @@ class FavoritesController extends GetxController with MessagesMixin {
 
   final _message = Rxn<MessageModel>();
   RxList movies = <MovieModel>[].obs;
+  RxBool get isLogedIn => (_authService.user != null).obs;
 
   FavoritesController(
       {required MoviesService moviesService, required AuthService authService})

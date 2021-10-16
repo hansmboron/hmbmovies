@@ -5,7 +5,7 @@ class HomeBindings implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut(
-      () => HomeController(loginService: Get.find()),
+      () => HomeController(loginService: Get.find(), authService: Get.find()),
       fenix: true,
     );
   }

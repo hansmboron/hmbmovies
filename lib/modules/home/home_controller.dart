@@ -1,14 +1,19 @@
+import 'package:app_movies/application/auth/auth_service.dart';
 import 'package:app_movies/services/login/login_service.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  RxBool get isLogedIn => (_authService.user != null).obs;
   static const navigatorKey = 1;
   static const indexExit = 2;
 
   final LoginService _loginService;
+  final AuthService _authService;
   HomeController({
     required LoginService loginService,
-  }) : _loginService = loginService;
+    required AuthService authService,
+  })  : _loginService = loginService,
+        _authService = authService;
 
   final _pages = ['/movies', '/favorites'];
   final _pageIndex = 0.obs;
@@ -18,7 +23,11 @@ class HomeController extends GetxController {
   void goToPage(int page) {
     _pageIndex(page);
     if (page == indexExit) {
-      _loginService.logout();
+      if (isLogedIn.value) {
+        _loginService.logout();
+      } else {
+        Get.offAllNamed('/login');
+      }
     } else {
       Get.offNamed(_pages[page], id: navigatorKey);
     }

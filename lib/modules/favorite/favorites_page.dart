@@ -18,27 +18,43 @@ class FavoritesPage extends GetView<FavoritesController> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Obx(
-            () => SizedBox(
-              width: Get.width,
-              child: Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                children: controller.movies
-                    .map((m) => MovieCard(
-                          movie: m,
-                          favoriteCallback: () => controller.removeFavorite(m),
-                        ))
-                    .toList(),
-              ),
-            ),
-          )),
-      bottomNavigationBar: _orientation == 1
-          ? null
-          : AdContainner(
-              height: 60,
-              ad: AdMobService.createBannerAd()..load(),
-            ),
+        physics: const BouncingScrollPhysics(),
+        child: Obx(
+          () => !controller.isLogedIn.value
+              ? Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Text(
+                      'Faça login\npara poder adicionar filmes\naos favoritos!',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  width: Get.width,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceEvenly,
+                    children: controller.movies
+                        .map((m) => MovieCard(
+                              movie: m,
+                              favoriteCallback: () =>
+                                  controller.removeFavorite(m),
+                            ))
+                        .toList(),
+                  ),
+                ),
+        ),
+      ),
+      // bottomNavigationBar: _orientation == 1
+      //     ? null
+      //     : AdContainner(
+      //         height: 60,
+      //         ad: AdMobService.createBannerAd()..load(),
+      //       ),
     );
   }
 }
