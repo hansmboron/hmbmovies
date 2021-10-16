@@ -25,7 +25,6 @@ class ContentMainCast extends StatelessWidget {
               ExpansionPanel(
                 isExpanded: showPanel.value,
                 canTapOnHeader: false,
-                backgroundColor: Colors.white,
                 headerBuilder: (context, isExpanded) {
                   return const Padding(
                     padding: EdgeInsets.only(left: 8),

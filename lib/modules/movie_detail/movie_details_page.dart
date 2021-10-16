@@ -57,15 +57,16 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
             )
           : null,
       body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MovieDetailHeader(movie: controller.movie.value),
-            MovieDetailContent(movie: controller.movie.value),
-          ],
-        ),
-      )),
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MovieDetailHeader(movie: controller.movie.value),
+                MovieDetailContent(movie: controller.movie.value),
+              ],
+            ),
+          )),
       // bottomNavigationBar: _orientation == 1
       //     ? null
       //     : AdContainner(

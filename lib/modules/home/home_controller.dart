@@ -17,6 +17,7 @@ class HomeController extends GetxController {
 
   final _pages = ['/movies', '/favorites'];
   final _pageIndex = 0.obs;
+  RxBool isDark = Get.isDarkMode.obs;
 
   int get pageIndex => _pageIndex.value;
 

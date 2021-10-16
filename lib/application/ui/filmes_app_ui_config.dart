@@ -6,7 +6,7 @@ class FilmesAppUiConfig {
   static String get title => 'HMB Filmes';
   static ThemeData get theme => ThemeData(
         // fontFamily: 'Metropolis',
-        // scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.red,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
@@ -15,6 +15,21 @@ class FilmesAppUiConfig {
           ),
           titleTextStyle: TextStyle(
             color: Color(0xFF222222),
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+  static ThemeData get themeDark => ThemeData(
+        // fontFamily: 'Metropolis',
+        primarySwatch: Colors.red,
+        appBarTheme: const AppBarTheme(
+          // backgroundColor: Colors.white,
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),

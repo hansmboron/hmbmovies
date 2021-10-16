@@ -1,5 +1,6 @@
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ContentProductionCompanies extends StatelessWidget {
   const ContentProductionCompanies({
@@ -15,9 +16,9 @@ class ContentProductionCompanies extends StatelessWidget {
       child: RichText(
         text: TextSpan(
             text: 'Companhia(s) produtora(s) : ',
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(0xFF222222),
+              color: Get.isDarkMode ? Colors.white : Color(0xFF222222),
             ),
             children: [
               TextSpan(

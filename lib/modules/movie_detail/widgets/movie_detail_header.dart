@@ -1,3 +1,4 @@
+import 'package:app_movies/application/ui/theme_extensions.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,9 @@ class MovieDetailHeader extends StatelessWidget {
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     Center(
                   child: CircularProgressIndicator(
-                      value: downloadProgress.progress),
+                    value: downloadProgress.progress,
+                    color: context.themeRed,
+                  ),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),

@@ -26,6 +26,7 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
 
   RxBool get hasResult => (queryList.length > 0).obs;
   RxBool get isLogedIn => (_authService.user != null).obs;
+
   var _page1 = 1.obs;
   var _page2 = 1.obs;
   var _page3 = 1.obs;
@@ -292,7 +293,6 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
       getNextLatest();
       getNextTop();
       getNextPop();
-      print('OBTEVE');
     }
   }
 }

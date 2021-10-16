@@ -17,6 +17,9 @@ class DownloadButton extends GetView<MovieDetailsController> {
             borderRadius: BorderRadius.circular(30),
           ),
         ),
+        backgroundColor: movie?.download != ''
+            ? MaterialStateProperty.all<Color>(context.themeRed)
+            : MaterialStateProperty.all<Color>(Colors.grey.withAlpha(150)),
         shadowColor: MaterialStateProperty.all<Color>(context.themeGrey),
         overlayColor: MaterialStateProperty.all<Color>(context.themeOrange),
       ),
@@ -27,23 +30,25 @@ class DownloadButton extends GetView<MovieDetailsController> {
                 titleStyle: TextStyle(color: context.themeRed),
                 title: 'Baixar Filme',
                 onConfirm: () => controller.launchURL(movie?.download ?? ''),
-                textConfirm: 'Baixar',
+                textConfirm: ' Baixar ',
                 confirmTextColor: Colors.white,
+                buttonColor: context.themeRed,
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     RichText(
                       text: TextSpan(
                         text: 'Para fazer o download do filme ',
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
                         ),
                         children: [
                           TextSpan(
                             text: movie?.title ?? "",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color:
+                                  Get.isDarkMode ? Colors.white : Colors.black,
                             ),
                           ),
                           const TextSpan(
@@ -85,7 +90,15 @@ class DownloadButton extends GetView<MovieDetailsController> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
+                    const Text(
+                      '* Todos os filmes são em DUAL audio ou em Português.',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     SelectableText(
                       movie?.download ?? '',
                       style: const TextStyle(

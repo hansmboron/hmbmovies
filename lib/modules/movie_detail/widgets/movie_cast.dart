@@ -23,8 +23,10 @@ class MovieCast extends StatelessWidget {
                   'https://hansmboron.free.resourcespace.com/filestore/hansmboron/1/1/1/4_b15a19c9301d26e/1114scr_26cec469bfb05d6.jpg?v=1621270273',
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                   Center(
-                child:
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                  color: context.themeRed,
+                ),
               ),
               errorWidget: (context, url, error) => Image.asset(
                 'assets/images/actor.png',

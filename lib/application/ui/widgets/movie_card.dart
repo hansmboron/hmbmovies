@@ -28,9 +28,8 @@ class MovieCard extends StatelessWidget {
         width: 124,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            boxShadow: [BoxShadow(color: context.themeGrey, blurRadius: 6)]),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Stack(
           children: [
             Column(
@@ -44,7 +43,9 @@ class MovieCard extends StatelessWidget {
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => Center(
                       child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
+                        value: downloadProgress.progress,
+                        color: context.themeRed,
+                      ),
                     ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
@@ -54,17 +55,14 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: Text(
-                    movie.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                Text(
+                  movie.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   dateFormat.format(
@@ -81,8 +79,8 @@ class MovieCard extends StatelessWidget {
               bottom: 40,
               right: -6,
               child: Material(
-                color: Colors.white.withAlpha(240),
-                elevation: 4,
+                color: Colors.white.withAlpha(230),
+                elevation: 3,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircleBorder(),
                 child: SizedBox(

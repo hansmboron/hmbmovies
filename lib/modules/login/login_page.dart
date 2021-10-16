@@ -51,7 +51,7 @@ class LoginPage extends GetView<LoginController> {
                         child: Center(
                           child: Text(
                             'Entrar com o Google',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
                         ),
                       ),

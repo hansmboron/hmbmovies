@@ -15,7 +15,7 @@ class MoviesPage extends GetView<MovieController> {
     return Scaffold(
       body: ListView(
         children: [
-          const MovieHeader(),
+          MovieHeader(),
           // const MoviesFilters(),
 
           Obx(
