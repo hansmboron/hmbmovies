@@ -8,7 +8,7 @@ class ContentTitle extends StatelessWidget {
   ContentTitle({Key? key, required this.movie}) : super(key: key);
 
   final MovieDetailsModel? movie;
-  final dateFormat = DateFormat('y');
+  final dateFormat = DateFormat('d/MM/y');
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,18 @@ class ContentTitle extends StatelessWidget {
       children: [
         const SizedBox(height: 8),
         Text(
-          '${movie?.title ?? ''} (${dateFormat.format(movie?.releaseDate ?? DateTime(0))})',
+          movie?.title ?? '',
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'Lançamento: ${dateFormat.format(movie?.releaseDate ?? DateTime(0))}',
+          style: TextStyle(
+            color: context.themeGrey,
+            fontSize: 9,
           ),
         ),
         const SizedBox(height: 4),
@@ -31,7 +39,7 @@ class ContentTitle extends StatelessWidget {
             maxValue: 10,
             maxValueVisibility: false,
             valueLabelColor: starsColor(movie?.stars ?? 1)),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         Text(
           movie?.genres.map((e) => e.name).join(', ') ?? '',
           style: TextStyle(fontSize: 11, color: context.themeGrey),

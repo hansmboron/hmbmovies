@@ -8,6 +8,7 @@ abstract class MoviesService {
   Future<List<MovieModel>> searchMovies(String name);
   Future<MovieDetailsModel?> getDetail(int id);
   Future<void> addOrRemoveFavorite(String userId, MovieModel movie);
+  Future<void> addToRec(MovieModel movie);
   Future<void> addTorrent(String movieId, String link, String youtube);
   Future<List<MovieModel>> getFavoritiesMovies(String userId);
 }

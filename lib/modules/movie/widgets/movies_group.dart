@@ -60,8 +60,10 @@ class MoviesGroup extends GetView<MovieController> {
                   var movie = movies[index];
                   controller.handleScrollWithIndex(index);
                   return MovieCard(
+                    isAdmin: controller.isAdmin.value,
                     movie: movie,
                     favoriteCallback: () => controller.favoriteMovie(movie),
+                    addToRec: () => controller.addToRec(movie),
                   );
                 },
                 itemCount: movies.length,

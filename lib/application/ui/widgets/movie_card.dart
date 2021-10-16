@@ -10,11 +10,15 @@ class MovieCard extends StatelessWidget {
   final MovieModel movie;
   final dateFormat = DateFormat('MM/y');
   final VoidCallback favoriteCallback;
+  final VoidCallback? addToRec;
+  final bool isAdmin;
 
   MovieCard({
     Key? key,
     required this.movie,
     required this.favoriteCallback,
+    this.addToRec,
+    this.isAdmin = false,
   }) : super(key: key);
 
   @override
@@ -96,7 +100,18 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            !isAdmin
+                ? Container()
+                : Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(color: Colors.red),
+                    child: GestureDetector(
+                      onTap: addToRec,
+                      child: Icon(Icons.add),
+                    ),
+                  )
           ],
         ),
       ),

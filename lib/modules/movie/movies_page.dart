@@ -31,6 +31,10 @@ class MoviesPage extends GetView<MovieController> {
                 : Container(),
           ),
           MoviesGroup(
+            title: 'Recomendados',
+            movies: controller.recomendedList,
+          ),
+          MoviesGroup(
             title: 'Últimos lançamentos',
             movies: controller.latestMovies,
           ),
@@ -48,12 +52,12 @@ class MoviesPage extends GetView<MovieController> {
           // ),
         ],
       ),
-      // bottomNavigationBar: _orientation == 1
-      //     ? null
-      //     : AdContainner(
-      //         height: 60,
-      //         ad: AdMobService.createBannerAd()..load(),
-      //       ),
+      bottomNavigationBar: _orientation == 1
+          ? null
+          : AdContainner(
+              height: 60,
+              ad: AdMobService.createBannerAd()..load(),
+            ),
     );
   }
 }

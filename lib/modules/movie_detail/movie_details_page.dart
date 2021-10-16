@@ -67,12 +67,12 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
               ],
             ),
           )),
-      // bottomNavigationBar: _orientation == 1
-      //     ? null
-      //     : AdContainner(
-      //         height: 60,
-      //         ad: AdMobService.createBannerAd()..load(),
-      //       ),
+      bottomNavigationBar: _orientation == 1
+          ? null
+          : AdContainner(
+              height: 60,
+              ad: AdMobService.createBannerAd()..load(),
+            ),
     );
   }
 }

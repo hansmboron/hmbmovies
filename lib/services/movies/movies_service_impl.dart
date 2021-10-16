@@ -40,4 +40,7 @@ class MoviesServiceImpl implements MoviesService {
   @override
   Future<List<MovieModel>> searchMovies(String name) =>
       _moviesRepository.searchMovies(name);
+
+  @override
+  Future<void> addToRec(MovieModel movie) => _moviesRepository.addToRec(movie);
 }

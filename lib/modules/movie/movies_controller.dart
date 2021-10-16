@@ -5,6 +5,7 @@ import 'package:app_movies/models/genre_model.dart';
 import 'package:app_movies/models/movie_model.dart';
 import 'package:app_movies/services/genres/genres_service.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,11 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
   final topRatedMovies = <MovieModel>[].obs;
   final latestMovies = <MovieModel>[].obs;
   final queryList = <MovieModel>[].obs;
-  final genreSelected = Rxn<GenreModel>();
+  final recomendedList = <MovieModel>[].obs;
+
+  var isAdmin = false.obs;
+
+  final genreSelected = Rxn<GenreModel>(); // not in use
 
   final TextEditingController searchCtrl = TextEditingController();
 
@@ -44,6 +49,12 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
 
   @override
   void onInit() {
+    String admin = RemoteConfig.instance.getString('hans_pro');
+    if (admin == _authService.user?.uid) {
+      isAdmin.value = true;
+    } else {
+      isAdmin.value = false;
+    }
     loaderListener(loading);
     messageListener(_message);
     super.onInit();
@@ -56,8 +67,6 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
       // genres.assignAll(genData);
       await getMovies();
     } catch (e) {
-      // ignore: avoid_print
-      print('ERRO: ' + e.toString());
       _message(
         MessageModel.error(
             title: 'Erro!', message: 'Erro ao carregar dados da página!!!'),
@@ -70,6 +79,8 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     _page1.value = 1;
     _page2.value = 1;
     _page3.value = 1;
+    await getRecomendedMovies();
+    var recData = recomendedList.toList();
     var popularMoviesData = await _moviesService.getPopularMovies('1');
     var topRatedMoviesData = await _moviesService.getTopRated('1');
     var latestMoviesData = await _moviesService.getLatest('1');
@@ -99,6 +110,14 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
           return m.copyWith(favorite: false);
         }
       }).toList();
+
+      recData = recData.map((m) {
+        if (favorites.containsKey(m.id)) {
+          return m.copyWith(favorite: true);
+        } else {
+          return m.copyWith(favorite: false);
+        }
+      }).toList();
     }
 
     popularMovies.assignAll(popularMoviesData);
@@ -107,29 +126,31 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     _topRatedMoviesOriginal = topRatedMoviesData;
     latestMovies.assignAll(latestMoviesData);
     _latestMoviesOriginal = latestMoviesData;
+
+    recomendedList.assignAll(recData);
   }
 
-  void filterByName(String title) {
-    if (title.isNotEmpty) {
-      var newPopularMovies = _popularMoviesOriginal.where((movie) {
-        return movie.title.toLowerCase().contains(title.toLowerCase());
-      });
-      var newTopRatedMovies = _topRatedMoviesOriginal.where((movie) {
-        return movie.title.toLowerCase().contains(title.toLowerCase());
-      });
-      var newLatestMovies = _latestMoviesOriginal.where((movie) {
-        return movie.title.toLowerCase().contains(title.toLowerCase());
-      });
+  // void filterByName(String title) {
+  //   if (title.isNotEmpty) {
+  //     var newPopularMovies = _popularMoviesOriginal.where((movie) {
+  //       return movie.title.toLowerCase().contains(title.toLowerCase());
+  //     });
+  //     var newTopRatedMovies = _topRatedMoviesOriginal.where((movie) {
+  //       return movie.title.toLowerCase().contains(title.toLowerCase());
+  //     });
+  //     var newLatestMovies = _latestMoviesOriginal.where((movie) {
+  //       return movie.title.toLowerCase().contains(title.toLowerCase());
+  //     });
 
-      popularMovies.assignAll(newPopularMovies);
-      topRatedMovies.assignAll(newTopRatedMovies);
-      latestMovies.assignAll(newLatestMovies);
-    } else {
-      popularMovies.assignAll(_popularMoviesOriginal);
-      topRatedMovies.assignAll(_topRatedMoviesOriginal);
-      latestMovies.assignAll(_latestMoviesOriginal);
-    }
-  }
+  //     popularMovies.assignAll(newPopularMovies);
+  //     topRatedMovies.assignAll(newTopRatedMovies);
+  //     latestMovies.assignAll(newLatestMovies);
+  //   } else {
+  //     popularMovies.assignAll(_popularMoviesOriginal);
+  //     topRatedMovies.assignAll(_topRatedMoviesOriginal);
+  //     latestMovies.assignAll(_latestMoviesOriginal);
+  //   }
+  // }
 
   Future<void> searchMovies(String name) async {
     try {
@@ -209,6 +230,21 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     }
   }
 
+  Future<void> addToRec(MovieModel movie) async {
+    final user = _authService.user?.uid ?? '';
+    final admin = RemoteConfig.instance.getString('hans_pro');
+    if (user == admin) {
+      var newMovie = movie.copyWith(favorite: false);
+
+      await _moviesService.addToRec(newMovie);
+      // await getMovies();
+      _message(MessageModel.info(
+          title: 'Adicionado aos Recomendados!', message: movie.title));
+    } else {
+      _message(MessageModel.error(title: 'Erro!', message: 'Acesso Negado!'));
+    }
+  }
+
   Future<Map<int, MovieModel>> getFavorites() async {
     var user = _authService.user;
     if (user != null) {
@@ -219,6 +255,13 @@ class MovieController extends GetxController with MessagesMixin, LoaderMixin {
     } else {
       return {};
     }
+  }
+
+  Future<void> getRecomendedMovies() async {
+    final items = await _moviesService.getFavoritiesMovies(
+      '000rec',
+    );
+    recomendedList.assignAll(items);
   }
 
   String nextPage1() {
