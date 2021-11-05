@@ -111,7 +111,7 @@ class MovieCard extends StatelessWidget {
                       onTap: addToRec,
                       child: Icon(Icons.add),
                     ),
-                  )
+                  ),
           ],
         ),
       ),

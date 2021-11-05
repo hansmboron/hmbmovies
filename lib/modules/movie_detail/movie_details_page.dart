@@ -26,6 +26,17 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
                 child: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
               actions: [
+                Obx(
+                  () => controller.isAdmin.value
+                      ? IconButton(
+                          onPressed: () => controller.delFromRec(),
+                          icon: Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.red,
+                          ),
+                        )
+                      : Container(),
+                ),
                 Obx(() => controller.isAdmin.value
                     ? IconButton(
                         padding: EdgeInsets.zero,
@@ -52,7 +63,7 @@ class MovieDetailsPage extends GetView<MovieDetailsController> {
                             )),
                         icon: const Icon(Icons.add),
                       )
-                    : Container())
+                    : Container()),
               ],
             )
           : null,

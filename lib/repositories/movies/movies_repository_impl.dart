@@ -205,7 +205,7 @@ class MoviesRepositoryImpl extends MoviesRepository {
           .collection('fav')
           .doc('000rec')
           .collection('movies');
-      favoriteCollection.add(movie.toMap());
+      favoriteCollection.doc(movie.id.toString()).set(movie.toMap());
     } catch (e) {
       print(e);
       print('Erro ao favoritar um filme');

@@ -4,6 +4,7 @@ import 'package:app_movies/application/ui/messages/messages_mixin.dart';
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:app_movies/services/admob/admob_service.dart';
 import 'package:app_movies/services/movies/movies_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,6 +81,21 @@ class MovieDetailsController extends GetxController
     } catch (e) {
       message(
           MessageModel.error(title: 'Erro', message: 'Erro ao add torrent'));
+    }
+  }
+
+  Future<void> delFromRec() async {
+    try {
+      var favoriteCollection = FirebaseFirestore.instance
+          .collection('fav')
+          .doc('000rec')
+          .collection('movies');
+      favoriteCollection.doc(movieId.toString()).delete();
+      message(
+          MessageModel.info(title: 'Sucesso', message: 'Removido com sucesso'));
+    } catch (e) {
+      message(MessageModel.error(
+          title: 'Erro', message: 'Erro ao remover dos favoritos'));
     }
   }
 
