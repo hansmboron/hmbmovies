@@ -35,16 +35,16 @@ class MoviesPage extends GetView<MovieController> {
             movies: controller.recomendedList,
           ),
           MoviesGroup(
-            title: 'Últimos lançamentos',
-            movies: controller.latestMovies,
-          ),
-          MoviesGroup(
             title: 'Mais Populares',
             movies: controller.popularMovies,
           ),
           MoviesGroup(
             title: 'Top filmes',
             movies: controller.topRatedMovies,
+          ),
+          MoviesGroup(
+            title: 'Últimos lançamentos',
+            movies: controller.latestMovies,
           ),
           // AdContainner(
           //   height: 301,

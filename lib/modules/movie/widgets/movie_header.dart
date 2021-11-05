@@ -3,7 +3,6 @@ import 'package:app_movies/modules/home/home_controller.dart';
 import 'package:app_movies/modules/movie/movies_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class MovieHeader extends GetView<MovieController> {
   MovieHeader({Key? key}) : super(key: key);
@@ -96,6 +95,7 @@ class MovieHeader extends GetView<MovieController> {
                       ),
                     ),
                   );
+                  _homeController.saveToPrefs();
                 } else {
                   Get.changeTheme(
                     ThemeData.light().copyWith(
@@ -114,6 +114,7 @@ class MovieHeader extends GetView<MovieController> {
                       ),
                     ),
                   );
+                  _homeController.saveToPrefs();
                 }
               },
               child: Obx(

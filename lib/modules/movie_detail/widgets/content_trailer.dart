@@ -1,8 +1,11 @@
 import 'package:app_movies/models/movie_details_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ContentTrailer extends StatelessWidget {
+import '../movie_details_controller.dart';
+
+class ContentTrailer extends GetView<MovieDetailsController> {
   const ContentTrailer({
     Key? key,
     required this.movie,
@@ -31,6 +34,19 @@ class ContentTrailer extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 4),
+        GestureDetector(
+          onTap: () => controller.launchURL(movie?.youtube ?? ''),
+          child: Text.rich(
+            TextSpan(text: 'Link: ', children: [
+              TextSpan(
+                text: movie?.youtube ?? '',
+                style:
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ),
+            ]),
+          ),
+        )
       ],
     );
   }
